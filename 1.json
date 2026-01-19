@@ -1,0 +1,861 @@
+{
+  "uiTree": [
+    {
+      "name": "page",
+      "uiKey": "AppPage_4QrqTjBe",
+      "type": "AppPage",
+      "children": [
+        {
+          "name": "",
+          "uiKey": "PrintLayout_@HfME6mB",
+          "type": "PrintLayout",
+          "children": [
+            {
+              "name": "",
+              "uiKey": "CommonText_eTVjKU8t",
+              "type": "CommonText",
+              "children": []
+            },
+            {
+              "name": "",
+              "uiKey": "Flex_MR7oDj4F",
+              "type": "Flex",
+              "children": [
+                {
+                  "name": "",
+                  "uiKey": "CommonText_VclBkd5a",
+                  "type": "CommonText",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "",
+              "uiKey": "Flex_xdxP6C9x",
+              "type": "Flex",
+              "children": [
+                {
+                  "name": "",
+                  "uiKey": "Flex_ZSZfR5Wf",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_mzIhVdKq",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_k3KyeiHW",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_xKwgv1JE",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_kz4VvRC1",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_xXrhE9bt",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_as4jBNIH",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_NF3eHJmb",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "",
+              "uiKey": "Flex_EHMLofST",
+              "type": "Flex",
+              "children": [
+                {
+                  "name": "",
+                  "uiKey": "Flex_9nV5dRmK",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_WlxH3bjp",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_jP@00zVi",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_J3RQDpHs",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_JPwm$9Pe",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_LgfhXbCk",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_69zLWez$",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_bU1C5@Mt",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "",
+              "uiKey": "Flex_F9ljkkkx",
+              "type": "Flex",
+              "children": [
+                {
+                  "name": "",
+                  "uiKey": "Flex_8GZjOIOm",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_zvnHd8z$",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_8bD9@NVU",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_yC0EHPhk",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_SGX@hQnP",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_BQMY@zZo",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_qyl6K0Sx",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_CDWRXpW9",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_TrmsW6hd",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_wgULp3CO",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_zOn806$u",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_QAxLMpny",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "",
+              "uiKey": "Flex_PPZqU2kI",
+              "type": "Flex",
+              "children": [
+                {
+                  "name": "",
+                  "uiKey": "CommonText_5av0IlK3",
+                  "type": "CommonText",
+                  "children": []
+                },
+                {
+                  "name": "",
+                  "uiKey": "Flex_msabpKTE",
+                  "type": "Flex",
+                  "children": [
+                    {
+                      "name": "",
+                      "uiKey": "CommonText_em27Cccf",
+                      "type": "CommonText",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "",
+              "uiKey": "Flex_GNNNVxpi",
+              "type": "Flex",
+              "children": [
+                {
+                  "name": "",
+                  "uiKey": "CommonText_gC1N70lN",
+                  "type": "CommonText",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "stockContentDataEntityList",
+              "uiKey": "Table_jYsObzsd",
+              "type": "Table",
+              "children": [
+                {
+                  "name": "",
+                  "uiKey": "TableChildColumn_FxhRRQtZ",
+                  "type": "TableChildColumn",
+                  "children": []
+                },
+                {
+                  "name": "",
+                  "uiKey": "TableChildColumn_BkkC6elg",
+                  "type": "TableChildColumn",
+                  "children": []
+                },
+                {
+                  "name": "",
+                  "uiKey": "TableChildColumn_m0$dGhFc",
+                  "type": "TableChildColumn",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "",
+              "uiKey": "PrintApprove_Juv@kQhq",
+              "type": "PrintApprove",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "uiProps": {
+    "CommonText_cKtT0tmj": {
+      "block": true,
+      "strong": true,
+      "size": 22,
+      "text": "我是文档标题",
+      "style": {
+        "textAlign": "center",
+        "fontWeight": "500",
+        "fontFamily": "微软雅黑",
+        "marginBottom": "30px"
+      }
+    },
+    "AppPage_OgnPNRxW": {
+      "pageStatus": "readonly",
+      "paper": "a4"
+    },
+    "PrintLayout_2alNUg3N": {
+      "style": {
+        "backgroundColor": "#fff"
+      },
+      "orientation": "portrait",
+      "divideByPage": "custom",
+      "pageMargins": {
+        "top": 2.54,
+        "bottom": 2.54,
+        "left": 3.18,
+        "right": 3.18
+      }
+    },
+    "AppPage_4QrqTjBe": {
+      "pageStatus": "readonly",
+      "paper": "a4"
+    },
+    "PrintLayout_@HfME6mB": {
+      "style": {
+        "backgroundColor": "#fff"
+      },
+      "orientation": "portrait",
+      "divideByPage": "auto",
+      "pageMargins": {
+        "top": 2.54,
+        "bottom": 2.54,
+        "left": 2.3,
+        "right": 1.5
+      },
+      "orientationMix": false
+    },
+    "CommonText_eTVjKU8t": {
+      "block": true,
+      "strong": true,
+      "size": 22,
+      "text": "中建股份工程类合同文件评审单",
+      "style": {
+        "textAlign": "center",
+        "fontWeight": "500",
+        "fontFamily": "微软雅黑",
+        "marginBottom": "30px"
+      },
+      "catalogNo": 1
+    },
+    "Flex_MR7oDj4F": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "width": "630px"
+      }
+    },
+    "CommonText_VclBkd5a": {
+      "catalogNo": 1,
+      "style": {
+        "border-bottom": "2px solid ",
+        "paddingBottom": "4px",
+        "marginBottom": "7px",
+        "width": "630px",
+        "text-decoration": "#6d9eeb"
+      },
+      "text": "基本信息",
+      "size": 18,
+      "color": "#0d8dd1"
+    },
+    "Flex_xdxP6C9x": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "display": "flex",
+        "justify-content": "space-between",
+        "width": "630px",
+        "height": "auto",
+        "align-items": "center",
+        "marginTop": "20px"
+      }
+    },
+    "Flex_ZSZfR5Wf": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_mzIhVdKq": {
+      "catalogNo": 1,
+      "style": {
+        "width": "70px",
+        "text-align": "center",
+        "align-items": "center"
+      },
+      "text": "合 同 标 题",
+      "strong": true
+    },
+    "Flex_k3KyeiHW": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_xKwgv1JE": {
+      "catalogNo": 1,
+      "style": {
+        "width": "30px"
+      },
+      "text": "关于",
+      "strong": true
+    },
+    "Flex_kz4VvRC1": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_xXrhE9bt": {
+      "catalogNo": 1,
+      "style": {
+        "border-bottom": "2px solid black",
+        "paddingBottom": "4px",
+        "marginBottom": "7px",
+        "width": "400px",
+        "textAlign": "center"
+      },
+      "text": "${contName}",
+      "variable": true
+    },
+    "Flex_as4jBNIH": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_NF3eHJmb": {
+      "catalogNo": 1,
+      "style": {
+        "width": "100px"
+      },
+      "text": "的合同评审申请",
+      "strong": true
+    },
+    "Flex_EHMLofST": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "display": "flex",
+        "width": "630px",
+        "height": "auto",
+        "align-items": "center",
+        "marginTop": "13px"
+      }
+    },
+    "Flex_9nV5dRmK": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_WlxH3bjp": {
+      "catalogNo": 1,
+      "style": {
+        "width": "125px"
+      },
+      "text": "相 对 方 签 约 主 体",
+      "strong": true
+    },
+    "Flex_jP@00zVi": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_J3RQDpHs": {
+      "catalogNo": 1,
+      "style": {
+        "border-bottom": "2px solid black",
+        "paddingBottom": "2px",
+        "marginBottom": "7px",
+        "width": "283px",
+        "marginLeft": "4px",
+        "textAlign": "center"
+      },
+      "text": "${cpSignBody}",
+      "variable": true
+    },
+    "Flex_JPwm$9Pe": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_LgfhXbCk": {
+      "catalogNo": 1,
+      "style": {
+        "width": "100px",
+        "marginLeft": "13px"
+      },
+      "text": "${typeTitle}",
+      "variable": true,
+      "strong": true
+    },
+    "Flex_69zLWez$": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_bU1C5@Mt": {
+      "catalogNo": 1,
+      "style": {
+        "border-bottom": "2px solid black",
+        "paddingBottom": "2px",
+        "marginBottom": "7px",
+        "width": "90px"
+      },
+      "text": "${contInclTaxAmt}",
+      "variable": true
+    },
+    "Flex_F9ljkkkx": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "display": "flex",
+        "width": "630px",
+        "height": "auto",
+        "align-items": "center",
+        "marginTop": "13px"
+      }
+    },
+    "Flex_8GZjOIOm": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_zvnHd8z$": {
+      "catalogNo": 1,
+      "text": "经 办 部 门",
+      "strong": true
+    },
+    "Flex_8bD9@NVU": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "border-bottom": "2px solid black",
+        "paddingBottom": "4px",
+        "marginBottom": "4px",
+        "width": "220px",
+        "textAlign": "center"
+      }
+    },
+    "CommonText_yC0EHPhk": {
+      "catalogNo": 1,
+      "style": {
+        "width": "220px",
+        "textAlign": "center"
+      },
+      "text": "${operPersonBelongDeptName}",
+      "variable": true
+    },
+    "Flex_SGX@hQnP": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_BQMY@zZo": {
+      "catalogNo": 1,
+      "style": {
+        "width": "50px",
+        "marginLeft": "7px"
+      },
+      "text": "经 办 人"
+    },
+    "Flex_qyl6K0Sx": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "border-bottom": "2px solid black",
+        "paddingBottom": "2px",
+        "marginBottom": "4px",
+        "width": "100px",
+        "textAlign": "center"
+      }
+    },
+    "CommonText_CDWRXpW9": {
+      "catalogNo": 1,
+      "style": {
+        "paddingLeft": "7px",
+        "textAlign": "center",
+        "width": "100px"
+      },
+      "text": "${operPersonName}",
+      "variable": true
+    },
+    "Flex_TrmsW6hd": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_wgULp3CO": {
+      "catalogNo": 1,
+      "style": {
+        "width": "70px",
+        "marginLeft": "7px"
+      },
+      "text": "联 系 电 话",
+      "strong": true
+    },
+    "Flex_zOn806$u": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_QAxLMpny": {
+      "catalogNo": 1,
+      "style": {
+        "border-bottom": "2px solid black",
+        "paddingBottom": "4px",
+        "marginBottom": "7px",
+        "width": "100px"
+      },
+      "text": "${initiaPresonContInfo}",
+      "variable": true
+    },
+    "Flex_PPZqU2kI": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "display": "flex",
+        "width": "630px",
+        "height": "auto",
+        "align-items": "center",
+        "marginTop": "14px"
+      }
+    },
+    "CommonText_5av0IlK3": {
+      "catalogNo": 1,
+      "text": "合 同 情 况\n简 要 说 明",
+      "style": {
+        "width": "80px"
+      },
+      "strong": true
+    },
+    "Flex_msabpKTE": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false
+    },
+    "CommonText_em27Cccf": {
+      "catalogNo": 1,
+      "style": {
+        "border-bottom": "2px solid black",
+        "paddingBottom": "2px",
+        "marginBottom": "3px",
+        "width": "540px"
+      },
+      "text": "${contOv}",
+      "variable": true
+    },
+    "Flex_GNNNVxpi": {
+      "visible": true,
+      "vertical": false,
+      "wrap": false,
+      "style": {
+        "border-bottom": "2px solid ",
+        "paddingBottom": "4px",
+        "marginBottom": "7px",
+        "width": "630px",
+        "text-decoration": "#6d9eeb",
+        "marginTop": "20px",
+        "borderColor": "#6d9eeb"
+      }
+    },
+    "CommonText_gC1N70lN": {
+      "catalogNo": 1,
+      "text": "审核意见",
+      "size": 18,
+      "color": "#0d8dd1"
+    },
+    "Table_jYsObzsd": {
+      "scroll": {
+        "x": false
+      },
+      "rowKey": "id",
+      "tableTitleRow": 1,
+      "tableHeadAlign": "left",
+      "tableAlign": "left",
+      "maxRowActionCount": "3",
+      "rowActionPosition": "fixed",
+      "rowActionAlign": "left",
+      "bordered": true,
+      "showRowNum": false,
+      "rowNumWidth": 45,
+      "resizableTitle": true,
+      "resizeTitleInterval": [
+        50,
+        800
+      ],
+      "pagination": false,
+      "style": {
+        "width": "650px"
+      }
+    },
+    "TableChildColumn_FxhRRQtZ": {
+      "title": "责任部门",
+      "dataIndex": "respDeptName",
+      "visible": true,
+      "$id": "OMrXAfd@",
+      "colSpan": 1,
+      "ellipsis": false,
+      "enableTotal": false,
+      "totalType": "sum",
+      "totalPrecision": 0,
+      "currencyUpperCase": false,
+      "upperAddon": 0,
+      "id": "OMrXAfd@",
+      "headAlign": null,
+      "align": null
+    },
+    "TableChildColumn_BkkC6elg": {
+      "title": "评审指标",
+      "dataIndex": "checkIndex",
+      "visible": true,
+      "$id": "GY0xG@un",
+      "colSpan": 1,
+      "ellipsis": false,
+      "enableTotal": false,
+      "totalType": "sum",
+      "totalPrecision": 0,
+      "currencyUpperCase": false,
+      "upperAddon": 0,
+      "id": "GY0xG@un",
+      "headAlign": null,
+      "align": null
+    },
+    "TableChildColumn_m0$dGhFc": {
+      "title": "是否合规",
+      "dataIndex": "isPract",
+      "visible": true,
+      "$id": "j$881YfV",
+      "colSpan": 1,
+      "ellipsis": false,
+      "enableTotal": false,
+      "totalType": "sum",
+      "totalPrecision": 0,
+      "currencyUpperCase": false,
+      "upperAddon": 0,
+      "id": "j$881YfV",
+      "headAlign": null,
+      "align": null
+    },
+    "PrintApprove_Juv@kQhq": {
+      "showForm": false,
+      "showDetail": true,
+      "remainHeader": true,
+      "approveColumns": [
+        {
+          "label": "审批人",
+          "value": "userName",
+          "example": "张三",
+          "field": "userName",
+          "visible": true,
+          "title": "审批人",
+          "key": "YEK5EyPf",
+          "titleRow": 10,
+          "$id": "9FM6dMED"
+        },
+        {
+          "label": "类型",
+          "value": "actionName",
+          "example": "审批",
+          "field": "actionName",
+          "visible": true,
+          "title": "类型",
+          "key": "ZwW7NQvm",
+          "titleRow": 10,
+          "$id": "ZlisYsDe"
+        },
+        {
+          "label": "意见",
+          "value": "message",
+          "example": "同意",
+          "field": "message",
+          "visible": true,
+          "title": "意见",
+          "key": "zWy1xMIt",
+          "titleRow": 10,
+          "$id": "1uBbNqYv"
+        },
+        {
+          "label": "审批节点",
+          "value": "nodeName",
+          "example": "加签节点",
+          "field": "nodeName",
+          "visible": true,
+          "title": "审批节点",
+          "key": "3o3bn83E",
+          "titleRow": 10,
+          "$id": "cCsOmTwm"
+        },
+        {
+          "label": "创建时间",
+          "value": "taskStartTime",
+          "example": "2024-01-01",
+          "field": "taskStartTime",
+          "visible": true,
+          "title": "创建时间",
+          "key": "qNJmpD@s",
+          "titleRow": 10,
+          "$id": "CUegtgb1"
+        },
+        {
+          "label": "办理时间",
+          "value": "time",
+          "example": "2024-01-02",
+          "field": "time",
+          "visible": true,
+          "title": "办理时间",
+          "key": "OqmsT0Hs",
+          "titleRow": 10,
+          "$id": "bVgLY2kN"
+        },
+        {
+          "label": "停留时间",
+          "value": "duration",
+          "example": "0.5小时",
+          "field": "duration",
+          "visible": true,
+          "title": "停留时间",
+          "key": "T@sDEHQp",
+          "titleRow": 10,
+          "$id": "pFNdm7zN"
+        }
+      ],
+      "style": {
+        "marginTop": "20px"
+      }
+    }
+  }
+}

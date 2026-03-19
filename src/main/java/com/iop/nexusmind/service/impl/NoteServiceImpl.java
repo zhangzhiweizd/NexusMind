@@ -11,6 +11,7 @@ import com.iop.nexusmind.repository.TagRepository;
 import com.iop.nexusmind.service.AIService;
 import com.iop.nexusmind.service.NoteService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NoteServiceImpl implements NoteService {
@@ -34,20 +35,11 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public NoteDTO createNote(NoteDTO noteDTO) {
+        log.info("创建新笔记：{}", noteDTO.getTitle());
         Note note = modelMapper.map(noteDTO, Note.class);
-        
-        if (noteDTO.getCategoryId() != null) {
-            Category category = categoryRepository.findById(noteDTO.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-            note.setCategory(category);
-        }
-        
-        if (noteDTO.getTagIds() != null && !noteDTO.getTagIds().isEmpty()) {
-            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(noteDTO.getTagIds()));
-            note.setTags(tags);
-        }
-        
+        bindCategoryAndTags(note, noteDTO);
         Note savedNote = noteRepository.save(note);
+        log.info("笔记创建成功，ID: {}", savedNote.getId());
         return modelMapper.map(savedNote, NoteDTO.class);
     }
 
@@ -61,19 +53,29 @@ public class NoteServiceImpl implements NoteService {
         existingNote.setContent(noteDTO.getContent());
         existingNote.setIsPublic(noteDTO.getIsPublic());
         
+        bindCategoryAndTags(existingNote, noteDTO);
+        
+        Note updatedNote = noteRepository.save(existingNote);
+        return modelMapper.map(updatedNote, NoteDTO.class);
+    }
+
+    /**
+     * 绑定分类和标签到笔记
+     */
+    private void bindCategoryAndTags(Note note, NoteDTO noteDTO) {
         if (noteDTO.getCategoryId() != null) {
             Category category = categoryRepository.findById(noteDTO.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-            existingNote.setCategory(category);
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + noteDTO.getCategoryId()));
+            note.setCategory(category);
         }
         
         if (noteDTO.getTagIds() != null) {
             Set<Tag> tags = new HashSet<>(tagRepository.findAllById(noteDTO.getTagIds()));
-            existingNote.setTags(tags);
+            if (tags.size() != noteDTO.getTagIds().size()) {
+                log.warn("部分标签未找到，期望：{}, 实际：{}", noteDTO.getTagIds().size(), tags.size());
+            }
+            note.setTags(tags);
         }
-        
-        Note updatedNote = noteRepository.save(existingNote);
-        return modelMapper.map(updatedNote, NoteDTO.class);
     }
 
     @Override
@@ -87,9 +89,11 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public void deleteNote(Long id) {
+        log.info("删除笔记，ID: {}", id);
         Note note = noteRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Note not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Note not found with id: " + id));
         noteRepository.delete(note);
+        log.info("笔记删除成功，ID: {}", id);
     }
 
     @Override

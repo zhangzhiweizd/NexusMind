@@ -1,6 +1,7 @@
 package com.iop.nexusmind.controller;
 
 import com.iop.nexusmind.dto.NoteDTO;
+import com.iop.nexusmind.dto.PageResponse;
 import com.iop.nexusmind.service.NoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,7 +41,7 @@ public class NoteController {
     })
     public ResponseEntity<NoteDTO> createNote(
             @Parameter(description = "笔记信息", required = true)
-            @RequestBody NoteDTO noteDTO) {
+            @RequestBody @Valid NoteDTO noteDTO) {
         NoteDTO created = noteService.createNote(noteDTO);
         return ResponseEntity.ok(created);
     }
@@ -56,7 +58,7 @@ public class NoteController {
             @Parameter(description = "笔记 ID", required = true)
             @PathVariable Long id,
             @Parameter(description = "更新后的笔记信息", required = true)
-            @RequestBody NoteDTO noteDTO) {
+            @RequestBody @Valid NoteDTO noteDTO) {
         NoteDTO updated = noteService.updateNote(id, noteDTO);
         return ResponseEntity.ok(updated);
     }
@@ -90,25 +92,27 @@ public class NoteController {
     @GetMapping
     @Operation(summary = "获取所有笔记（分页）", description = "分页获取所有笔记列表")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "获取成功",
-                    content = @Content(schema = @Schema(implementation = Page.class)))
+        @ApiResponse(responseCode = "200", description = "获取成功",
+            content = @Content(schema = @Schema(implementation = PageResponse.class)))
     })
-    public ResponseEntity<Page<NoteDTO>> getAllNotes(
+    public ResponseEntity<PageResponse<NoteDTO>> getAllNotes(
             @Parameter(description = "页码，从 0 开始")
             @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "每页大小")
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(noteService.getAllNotes(pageable));
+        Page<NoteDTO> pageResult = noteService.getAllNotes(pageable);
+        PageResponse<NoteDTO> response = PageResponse.fromPage(pageResult);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/search")
     @Operation(summary = "搜索笔记", description = "根据关键词搜索笔记（支持标题和内容模糊匹配）")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "搜索成功",
-                    content = @Content(schema = @Schema(implementation = Page.class)))
+        @ApiResponse(responseCode = "200", description = "搜索成功",
+            content = @Content(schema = @Schema(implementation = PageResponse.class)))
     })
-    public ResponseEntity<Page<NoteDTO>> searchNotes(
+    public ResponseEntity<PageResponse<NoteDTO>> searchNotes(
             @Parameter(description = "搜索关键词", required = true)
             @RequestParam String keyword,
             @Parameter(description = "页码")
@@ -116,7 +120,9 @@ public class NoteController {
             @Parameter(description = "每页大小")
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(noteService.searchNotes(keyword, pageable));
+        Page<NoteDTO> pageResult = noteService.searchNotes(keyword, pageable);
+        PageResponse<NoteDTO> response = PageResponse.fromPage(pageResult);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/category/{categoryId}")

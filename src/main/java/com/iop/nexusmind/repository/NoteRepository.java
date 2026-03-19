@@ -15,7 +15,9 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     
     Page<Note> findByTitleContainingIgnoreCase(String title, Pageable pageable);
     
-    @Query("SELECT n FROM Note n WHERE n.content LIKE %:keyword% OR n.title LIKE %:keyword%")
+    // 添加全文搜索索引（在实体类中已经优化）
+    @Query("SELECT n FROM Note n WHERE LOWER(n.content) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+           "OR LOWER(n.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Note> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
     
     List<Note> findByCategoryId(Long categoryId);
@@ -23,4 +25,11 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findByTagsId(Long tagId);
     
     Page<Note> findByIsPublicTrue(Pageable pageable);
+    
+    // 添加按创建时间排序的查询
+    Page<Note> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    
+    // 添加按更新时间排序的查询
+    Page<Note> findAllByOrderByUpdatedAtDesc(Pageable pageable);
+
 }

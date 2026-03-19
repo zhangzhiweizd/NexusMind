@@ -47,27 +47,35 @@ public class AIServiceImpl implements AIService {
     }
 
     private String callQwenAPI(String input) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + apiKey);
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + apiKey);
 
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model", model);
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("model", model);
 
-        Map<String, String> message = new HashMap<>();
-        message.put("role", "user");
-        message.put("content", input);
-        requestBody.put("input", Map.of("messages", List.of(message)));
+            Map<String, String> message = new HashMap<>();
+            message.put("role", "user");
+            message.put("content", input);
+            requestBody.put("input", Map.of("messages", List.of(message)));
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<Map> response = restTemplate.postForEntity(apiUrl, entity, Map.class);
-        
-        if (response.getBody() != null && response.getBody().containsKey("output")) {
-            Map<String, Object> output = (Map<String, Object>) response.getBody().get("output");
-            return (String) output.get("text");
+            ResponseEntity<Map> response = restTemplate.postForEntity(apiUrl, entity, Map.class);
+            
+            if (response.getBody() != null) {
+                Map<String, Object> output = (Map<String, Object>) response.getBody().get("output");
+                if (output != null && output.containsKey("text")) {
+                    return (String) output.get("text");
+                }
+            }
+            
+            log.warn("AI API 返回空响应");
+            return "AI 响应失败";
+        } catch (Exception e) {
+            log.error("调用 AI API 失败：{}", e.getMessage(), e);
+            return "AI 服务调用失败：" + e.getMessage();
         }
-        
-        return "AI 响应失败";
     }
 }

@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: NexusMind
+  
+  datasource:
+    url: jdbc:h2:mem:nexusmind_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+ai:
+  qwen:
+    api-key: YOUR_API_KEY_HERE
+    api-url: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
+    model: qwen-turbo
+
+nexusmind:
+  openapi:
+    server-url: http://localhost:8080
+
+logging:
+  level:
+    com.iop.nexusmind: DEBUG
+    org.springframework.web: INFO
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

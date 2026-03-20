@@ -1,5 +1,8 @@
 package com.iop.nexusmind.config;
 
+import com.iop.nexusmind.repository.CategoryRepository;
+import com.iop.nexusmind.repository.TagRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class StartupLogger implements CommandLineRunner {
 
     @Value("${server.port:8080}")
@@ -15,35 +19,44 @@ public class StartupLogger implements CommandLineRunner {
     @Value("${spring.h2.console.path:/h2-console}")
     private String h2ConsolePath;
 
+    private final CategoryRepository categoryRepository;
+    private final TagRepository tagRepository;
+
     @Override
     public void run(String... args) {
-        String banner = """
-                
-                ╔══════════════════════════════════════════════════════════╗
-                ║                                                          ║
-                ║           🚀 NexusMind 知识管理系统启动成功！             ║
-                ║                                                          ║
-                ╠══════════════════════════════════════════════════════════╣
-                                                                          ║
-                ║  📖 API 文档 (Swagger UI):                               ║
-                ║     👉 http://localhost:%s/swagger-ui.html            ║
-                ║                                                          ║
-                ║  📄 API 文档 (JSON):                                     ║
-                ║     👉 http://localhost:%s/v3/api-docs                ║
-                ║                                                          ║
-                ║  💾 H2 数据库控制台：                                    ║
-                ║     👉 http://localhost:%s%s                         ║
-                ║     JDBC URL: jdbc:h2:mem:nexusmind_db                  ║
-                ║     用户名：sa                                          ║
-                ║     密码：(空)                                           ║
-                ║                                                          ║
-                ╠══════════════════════════════════════════════════════════╣
-                ║  💡 提示：                                                
-                ║  - 在 Swagger UI 中可以直接测试所有 API 接口              ║
-                ║  - 使用 H2 控制台可以查看数据库数据                        ║
-                ╚══════════════════════════════════════════════════════════╝
-                """.formatted(serverPort, serverPort, serverPort, h2ConsolePath);
-
-        log.info(banner);
+        long categoryCount = categoryRepository.count();
+        long tagCount = tagRepository.count();
+        
+        StringBuilder banner = new StringBuilder();
+        banner.append("\n");
+        banner.append("╔══════════════════════════════════════════════════════════╗\n");
+        banner.append("║                                                          ║\n");
+        banner.append("║           🚀 NexusMind 知识管理系统启动成功！             ║\n");
+        banner.append("║                                                          ║\n");
+        banner.append("╠══════════════════════════════════════════════════════════╣\n");
+        banner.append("║                                                          ║\n");
+        banner.append("║  📖 API 文档 (Swagger UI):                               ║\n");
+        banner.append(String.format("║     👉 http://localhost:%s%s                           ║\n", serverPort, "/swagger-ui.html"));
+        banner.append("║                                                          ║\n");
+        banner.append("║  📄 API 文档 (JSON):                                     ║\n");
+        banner.append(String.format("║     👉 http://localhost:%s%s                          ║\n", serverPort, "/v3/api-docs"));
+        banner.append("║                                                          ║\n");
+        banner.append("║  💾 H2 数据库控制台：                                    ║\n");
+        banner.append(String.format("║     👉 http://localhost:%s%s                          ║\n", serverPort, h2ConsolePath));
+        banner.append("║     JDBC URL: jdbc:h2:mem:nexusmind_db                  ║\n");
+        banner.append("║     用户名：sa                                          ║\n");
+        banner.append("║     密码：(空)                                           ║\n");
+        banner.append("║                                                          ║\n");
+        banner.append("║  📊 数据库统计：                                         ║\n");
+        banner.append(String.format("║     分类数量：%-40d ║\n", categoryCount));
+        banner.append(String.format("║     标签数量：%-40d ║\n", tagCount));
+        banner.append("║                                                          ║\n");
+        banner.append("╠══════════════════════════════════════════════════════════╣\n");
+        banner.append("║  💡 提示：                                                ║\n");
+        banner.append("║  - 在 Swagger UI 中可以直接测试所有 API 接口              ║\n");
+        banner.append("║  - 使用 H2 控制台可以查看数据库数据                        ║\n");
+        banner.append("╚══════════════════════════════════════════════════════════╝\n");
+        
+        log.info(banner.toString());
     }
 }

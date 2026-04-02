@@ -39,7 +39,7 @@ spring:
 
 ai:
   qwen:
-    api-key: YOUR_API_KEY_HERE
+    api-key: sk-your-actual-api-key-here  # 替换为你的真实 API Key
     api-url: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
     model: qwen-turbo
     timeout: 30000
@@ -54,6 +54,8 @@ logging:
     org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  charset: UTF-8
+  pattern: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 springdoc:
   api-docs:

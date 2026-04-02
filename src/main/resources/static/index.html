@@ -17,10 +17,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Quill Editor CSS -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://unpkg.com/quill@1.3.6/dist/quill.snow.css" rel="stylesheet">
 
     <!-- Quill Editor JS -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://unpkg.com/quill@1.3.6/dist/quill.js"></script>
 
     <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -43,24 +43,36 @@
             background: white;
             border-radius: 8px;
             margin-bottom: 10px;
+            min-height: 400px;
         }
 
         .ql-toolbar {
             border: 1px solid #e2e8f0 !important;
             border-radius: 8px 8px 0 0 !important;
-            background: #f7fafc !important;
+            background: #f8fafc !important;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .ql-container {
             border: 1px solid #e2e8f0 !important;
             border-radius: 0 0 8px 8px !important;
             font-family: 'Arial', sans-serif !important;
-            min-height: 300px;
+            min-height: 400px;
+            font-size: 16px;
         }
 
         .ql-editor {
-            min-height: 300px;
+            min-height: 400px;
             font-size: 16px;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .ql-editor.ql-blank::before {
+            font-style: normal;
+            color: #9ca3af;
         }
 
         .note-card {
@@ -139,6 +151,7 @@
         const [isLoading, setIsLoading] = useState(false);
         const [searchKeyword, setSearchKeyword] = useState('');
         const [activeTab, setActiveTab] = useState('all');
+        const [selectedNoteIds, setSelectedNoteIds] = useState([]);
         const editorRef = useRef(null);
         const quillRef = useRef(null);
 
@@ -167,17 +180,21 @@
                     theme: 'snow',
                     modules: {
                         toolbar: [
-                            [{ 'header': [1, 2, 3, false] }],
+                            [{ 'font': [] }],
+                            [{ 'size': ['small', false, 'large', 'huge'] }],
+                            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                             ['bold', 'italic', 'underline', 'strike'],
                             [{ 'color': [] }, { 'background': [] }],
+                            [{ 'script': 'sub'}, { 'script': 'super' }],
                             [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            [{ 'indent': '-1'}, { 'indent': '+1' }],
                             [{ 'align': [] }],
                             ['blockquote', 'code-block'],
-                            ['link', 'image'],
+                            ['link', 'image', 'video'],
                             ['clean']
                         ]
                     },
-                    placeholder: '在这里记录你的知识...'
+                    placeholder: '在这里输入内容，支持丰富的格式编辑...'
                 });
 
                 quill.on('text-change', () => {
@@ -297,6 +314,102 @@
 
             if (quillRef.current) {
                 quillRef.current.root.innerHTML = note.content || '';
+            }
+        };
+
+        const toggleNoteSelection = (noteId) => {
+            setSelectedNoteIds(prev =>
+                prev.includes(noteId)
+                    ? prev.filter(id => id !== noteId)
+                    : [...prev, noteId]
+            );
+        };
+
+        const exportToMarkdown = async (noteId) => {
+            try {
+                const response = await axios.get(`${API_BASE}/notes/${noteId}/export/markdown`, {
+                    responseType: 'blob'
+                });
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `note_${noteId}.md`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('导出 Markdown 失败:', error);
+                alert('导出失败，请重试');
+            }
+        };
+
+        const exportToWord = async (noteId) => {
+            try {
+                const response = await axios.get(`${API_BASE}/notes/${noteId}/export/word`, {
+                    responseType: 'blob'
+                });
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `note_${noteId}.docx`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('导出 Word 失败:', error);
+                alert('导出失败，请重试');
+            }
+        };
+
+        const exportMultipleToMarkdown = async () => {
+            if (selectedNoteIds.length === 0) {
+                alert('请至少选择一个笔记');
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${API_BASE}/notes/export/markdown`, selectedNoteIds, {
+                    responseType: 'blob'
+                });
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'notes_export.zip');
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+                setSelectedNoteIds([]);
+            } catch (error) {
+                console.error('批量导出 Markdown 失败:', error);
+                alert('导出失败，请重试');
+            }
+        };
+
+        const exportMultipleToWord = async () => {
+            if (selectedNoteIds.length === 0) {
+                alert('请至少选择一个笔记');
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${API_BASE}/notes/export/word`, selectedNoteIds, {
+                    responseType: 'blob'
+                });
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'notes_export_word.zip');
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+                setSelectedNoteIds([]);
+            } catch (error) {
+                console.error('批量导出 Word 失败:', error);
+                alert('导出失败，请重试');
             }
         };
 
@@ -448,6 +561,35 @@
                             </button>
                         </div>
 
+                        {/* 批量导出按钮 */}
+                        {selectedNoteIds.length > 0 && (
+                            <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm font-medium text-purple-700">
+                                        已选择 {selectedNoteIds.length} 个笔记
+                                    </span>
+                                    <button
+                                        onClick={exportMultipleToMarkdown}
+                                        className="ml-auto px-4 py-1 bg-purple-500 text-white rounded-lg text-sm hover:bg-purple-600"
+                                    >
+                                        📦 批量导出 Markdown
+                                    </button>
+                                    <button
+                                        onClick={exportMultipleToWord}
+                                        className="px-4 py-1 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600"
+                                    >
+                                        📄 批量导出 Word
+                                    </button>
+                                    <button
+                                        onClick={() => setSelectedNoteIds([])}
+                                        className="px-4 py-1 bg-gray-300 text-gray-700 rounded-lg text-sm hover:bg-gray-400"
+                                    >
+                                        取消选择
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
                         <div className="mb-8 p-6 bg-white rounded-lg shadow-md">
                             <h2 className="text-2xl font-bold mb-4 text-gray-800">
                                 {currentNote ? '✏️ 编辑笔记' : '✨ 创建新笔记'}
@@ -573,28 +715,68 @@
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {notes.map(note => (
-                                    <div
-                                        key={note.id}
-                                        onClick={() => editNote(note)}
-                                        className="note-card p-6 bg-white rounded-lg shadow-md border-l-4 border-purple-500"
-                                    >
-                                        <h4 className="text-lg font-bold mb-2 text-gray-800 truncate">
-                                            {note.title}
-                                        </h4>
+                                    <div className="note-card p-6 bg-white rounded-lg shadow-md border-l-4 border-purple-500">
+                                        <div className="flex items-start gap-2 mb-2">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedNoteIds.includes(note.id)}
+                                                onChange={(e) => {
+                                                    e.stopPropagation();
+                                                    toggleNoteSelection(note.id);
+                                                }}
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="mt-1 w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                                            />
+                                            <h4 className="text-lg font-bold text-gray-800 truncate flex-1">
+                                                {note.title}
+                                            </h4>
+                                        </div>
                                         <p className="text-sm text-gray-600 mb-3 line-clamp-2">
                                             {note.summary || '暂无摘要'}
                                         </p>
                                         <div className="flex justify-between items-center text-xs text-gray-500">
                                             <span>📅 {new Date(note.createdAt).toLocaleDateString('zh-CN')}</span>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    deleteNote(note.id);
-                                                }}
-                                                className="text-red-500 hover:text-red-700"
-                                            >
-                                                🗑️
-                                            </button>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        editNote(note);
+                                                    }}
+                                                    className="text-purple-500 hover:text-purple-700"
+                                                    title="编辑笔记"
+                                                >
+                                                    ✏️ 编辑
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        exportToMarkdown(note.id);
+                                                    }}
+                                                    className="text-green-500 hover:text-green-700"
+                                                    title="导出为 Markdown"
+                                                >
+                                                    📝 MD
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        exportToWord(note.id);
+                                                    }}
+                                                    className="text-blue-500 hover:text-blue-700"
+                                                    title="导出为 Word"
+                                                >
+                                                    📄 Word
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        deleteNote(note.id);
+                                                    }}
+                                                    className="text-red-500 hover:text-red-700"
+                                                >
+                                                    🗑️
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}

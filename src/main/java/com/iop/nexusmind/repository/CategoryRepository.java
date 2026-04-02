@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * 分类数据访问层接口
+ * 提供分类的数据库操作方法
+ */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     

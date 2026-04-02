@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 分类实体类
+ * 用于知识分类管理，支持多级分类结构
+ */
 @Entity
 @Table(name = "categories")
 @Data

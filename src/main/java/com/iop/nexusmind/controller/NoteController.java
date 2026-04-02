@@ -2,6 +2,7 @@ package com.iop.nexusmind.controller;
 
 import com.iop.nexusmind.dto.NoteDTO;
 import com.iop.nexusmind.dto.PageResponse;
+import com.iop.nexusmind.service.ExportService;
 import com.iop.nexusmind.service.NoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,16 +13,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/notes")
 @RequiredArgsConstructor
@@ -30,6 +37,7 @@ import java.util.Map;
 public class NoteController {
 
     private final NoteService noteService;
+    private final ExportService exportService;
 
     @PostMapping
     @Operation(summary = "创建笔记", description = "创建一个新的笔记，支持标题、内容、分类和标签")
@@ -168,5 +176,89 @@ public class NoteController {
         Map<String, String> response = new HashMap<>();
         response.put("summary", summary);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/export/markdown")
+    @Operation(summary = "导出笔记为 Markdown", description = "将指定笔记导出为 Markdown 格式")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "导出成功",
+                    content = @Content(mediaType = "text/markdown")),
+            @ApiResponse(responseCode = "404", description = "笔记未找到")
+    })
+    public ResponseEntity<String> exportNoteToMarkdown(
+            @Parameter(description = "笔记 ID", required = true)
+            @PathVariable Long id) {
+        String markdown = exportService.exportToMarkdown(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf("text/markdown; charset=UTF-8"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, 
+                        "attachment; filename=\"" + 
+                        java.net.URLEncoder.encode(markdown, StandardCharsets.UTF_8) + ".md\"")
+                .body(markdown);
+    }
+
+    @GetMapping("/{id}/export/word")
+    @Operation(summary = "导出笔记为 Word", description = "将指定笔记导出为 Word 文档")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "导出成功",
+                    content = @Content(mediaType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document")),
+            @ApiResponse(responseCode = "404", description = "笔记未找到")
+    })
+    public ResponseEntity<byte[]> exportNoteToWord(
+            @Parameter(description = "笔记 ID", required = true)
+            @PathVariable Long id) throws IOException {
+        NoteDTO note = noteService.getNoteById(id);
+        log.info("导出 Word 文档，笔记 ID: {}, 标题：{}, 内容长度：{}", id, note.getTitle(), note.getContent() != null ? note.getContent().length() : 0);
+        
+        // 检查内容中是否有图片
+        if (note.getContent() != null && note.getContent().contains("<img")) {
+            log.info("笔记包含图片");
+        }
+        
+        byte[] wordContent = exportService.exportToWord(id);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        String fileName = java.net.URLEncoder.encode(note.getTitle(), "UTF-8") + ".docx";
+        headers.setContentDispositionFormData("attachment", fileName);
+        
+        log.info("Word 文档生成完成，大小：{} bytes", wordContent.length);
+        return new ResponseEntity<>(wordContent, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/export/markdown")
+    @Operation(summary = "批量导出笔记为 Markdown(ZIP)", description = "将多个笔记导出为 Markdown 并打包成 ZIP 文件")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "导出成功",
+                    content = @Content(mediaType = "application/zip"))
+    })
+    public ResponseEntity<byte[]> exportMultipleToMarkdown(
+            @Parameter(description = "笔记 ID 列表", required = true)
+            @RequestBody List<Long> noteIds) throws IOException {
+        byte[] zipContent = exportService.exportMultipleToMarkdown(noteIds);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "notes_export.zip");
+        
+        return new ResponseEntity<>(zipContent, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/export/word")
+    @Operation(summary = "批量导出笔记为 Word(ZIP)", description = "将多个笔记导出为 Word 文档并打包成 ZIP 文件")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "导出成功",
+                    content = @Content(mediaType = "application/zip"))
+    })
+    public ResponseEntity<byte[]> exportMultipleToWord(
+            @Parameter(description = "笔记 ID 列表", required = true)
+            @RequestBody List<Long> noteIds) throws IOException {
+        byte[] zipContent = exportService.exportMultipleToWord(noteIds);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "notes_export_word.zip");
+        
+        return new ResponseEntity<>(zipContent, headers, HttpStatus.OK);
     }
 }

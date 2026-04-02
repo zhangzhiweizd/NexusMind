@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 分类和标签控制器
+ * 提供分类和标签的 RESTful API 接口
+ */
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

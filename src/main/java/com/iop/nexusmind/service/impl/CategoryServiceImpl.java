@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 分类服务实现类
+ * 实现分类管理的业务逻辑
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

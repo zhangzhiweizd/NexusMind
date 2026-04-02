@@ -6,6 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * 应用配置类
+ * 配置全局通用的 Bean 组件
+ */
 @Configuration
 public class AppConfig {
 

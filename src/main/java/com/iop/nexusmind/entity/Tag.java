@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 标签实体类
+ * 用于知识的标签标记，支持多对多关联
+ */
 @Entity
 @Table(name = "tags")
 @Data

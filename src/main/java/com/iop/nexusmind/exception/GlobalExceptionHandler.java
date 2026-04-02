@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 全局异常处理器
+ * 统一处理系统中抛出的各种异常
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {

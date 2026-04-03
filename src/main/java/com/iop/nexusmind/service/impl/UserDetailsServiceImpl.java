@@ -2,6 +2,7 @@ package com.iop.nexusmind.service.impl;
 
 import com.iop.nexusmind.entity.User;
 import com.iop.nexusmind.repository.UserRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,13 +22,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("用户不存在：" + username));
         
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .enabled(user.getEnabled())
-                .authorities(user.getRoles().stream()
-                        .map(role -> role.getName())
-                        .toArray(String[]::new))
-                .build();
+        boolean enabled = user.getEnabled() != null ? user.getEnabled() : true;
+        
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                enabled,
+                true, // accountNonExpired
+                true, // credentialsNonExpired
+                true, // accountNonLocked
+                user.getRoles().stream()
+                        .map(role -> new SimpleGrantedAuthority(role.getName()))
+                        .toList()
+        );
     }
 }

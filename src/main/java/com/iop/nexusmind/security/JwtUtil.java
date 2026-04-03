@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +26,11 @@ public class JwtUtil {
     @Value("${jwt.refresh-expiration-ms:604800000}")
     private long refreshExpirationMs;
 
-    private Key key;
+    private SecretKey key;
 
     @PostConstruct
     public void init() {
-        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+        this.key = (SecretKey) Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
 
     public String generateToken(UserDetails userDetails) {

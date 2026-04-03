@@ -1,7 +1,5 @@
 package com.iop.nexusmind.config;
 
-import com.iop.nexusmind.repository.CategoryRepository;
-import com.iop.nexusmind.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,13 +17,11 @@ public class StartupLogger implements CommandLineRunner {
     @Value("${spring.h2.console.path:/h2-console}")
     private String h2ConsolePath;
 
-    private final CategoryRepository categoryRepository;
-    private final TagRepository tagRepository;
+
 
     @Override
     public void run(String... args) {
-        long categoryCount = categoryRepository.count();
-        long tagCount = tagRepository.count();
+
         
         StringBuilder banner = new StringBuilder();
         banner.append("\n");
@@ -47,9 +43,6 @@ public class StartupLogger implements CommandLineRunner {
         banner.append("║     用户名：sa                                          ║\n");
         banner.append("║     密码：(空)                                           ║\n");
         banner.append("║                                                          ║\n");
-        banner.append("║  📊 数据库统计：                                         ║\n");
-        banner.append(String.format("║     分类数量：%-40d ║\n", categoryCount));
-        banner.append(String.format("║     标签数量：%-40d ║\n", tagCount));
         banner.append("║                                                          ║\n");
         banner.append("╠══════════════════════════════════════════════════════════╣\n");
         banner.append("║  💡 提示：                                                ║\n");

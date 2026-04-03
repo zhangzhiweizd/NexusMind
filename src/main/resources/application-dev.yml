@@ -1,0 +1,47 @@
+# 开发环境配置
+# 激活方式：spring.profiles.active=dev
+
+spring:
+  datasource:
+    # H2 内存数据库（开发环境）
+    url: jdbc:h2:mem:nexusmind_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+# JWT 密钥（开发环境）
+jwt:
+  secret: RG V2bG9wYWxTY2hvb2xUZXN0S2V5Rm9yRGV2RW52aXJvbm1lbnQyMDI0
+
+# 日志配置（开发环境 - 详细）
+logging:
+  level:
+    root: INFO
+    com.iop.nexusmind: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  charset: UTF-8
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/nexusmind-dev.log
+    max-size: 10MB
+    max-history: 30

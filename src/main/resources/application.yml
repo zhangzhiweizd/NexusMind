@@ -1,67 +1,32 @@
+# NexusMind 应用主配置文件
+# 此文件为公共配置，环境特定配置在 application-{profile}.yml 中
+
 server:
   port: 8080
 
 spring:
   application:
     name: NexusMind
-  
+  # 默认激活开发环境
   profiles:
     active: dev
-  
-  datasource:
-    # PostgreSQL Configuration (Production)
-    # url: jdbc:postgresql://localhost:5432/nexusmind_db
-    # driver-class-name: org.postgresql.Driver
-    # username: nexusmind
-    # password: your_password
-    
-    # H2 Configuration (Development)
-    url: jdbc:h2:mem:nexusmind_db
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: 
-  
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
-  
+  # 公共配置
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  
   jackson:
     serialization:
       write-dates-as-timestamps: false
     deserialization:
       fail-on-unknown-properties: false
 
+# JWT 配置（公共）
 jwt:
-  secret: your-secret-key-change-this-in-production-minimum-32-chars
   expiration-ms: 86400000 # 24 hours
   refresh-expiration-ms: 604800000 # 7 days
 
-logging:
-  level:
-    com.iop.nexusmind: DEBUG
-    org.springframework.web: INFO
-    org.springframework.security: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-  charset: UTF-8
-  pattern: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-
+# SpringDoc 配置（公共）
 springdoc:
   api-docs:
     path: /v3/api-docs

@@ -1,0 +1,77 @@
+# 生产环境配置
+# 激活方式：spring.profiles.active=prod
+# 注意：生产环境配置应通过环境变量或外部配置文件覆盖敏感信息
+
+spring:
+  datasource:
+    # PostgreSQL 数据库（生产环境）
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:nexusmind_db}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:nexusmind}
+    password: ${DB_PASSWORD:your_secure_password}
+  
+  # 生产环境禁用 H2 控制台
+  h2:
+    console:
+      enabled: false
+  
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+    # 连接池配置（HikariCP）
+  datasource:
+    hikari:
+      pool-name: NexusMind-HikariCP
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+      leak-detection-threshold: 60000
+
+# JWT 密钥（生产环境 - 必须通过环境变量设置）
+jwt:
+  secret: ${JWT_SECRET:your-production-secret-key-change-this-in-environment-variables}
+
+# 日志配置（生产环境 - 精简）
+logging:
+  level:
+    root: WARN
+    com.iop.nexusmind: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+  charset: UTF-8
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/nexusmind-prod.log
+    max-size: 50MB
+    max-history: 90
+    total-size-cap: 1GB
+
+# 生产环境禁用 Swagger
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+
+# 服务器配置（生产环境）
+server:
+  # 生产环境建议使用反向代理，此处配置仅作为参考
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/json,text/html,text/xml,text/plain
+  tomcat:
+    max-threads: 200
+    min-spare-threads: 10
+    connection-timeout: 20000
+    accept-count: 100

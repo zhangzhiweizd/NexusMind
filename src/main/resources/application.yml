@@ -14,7 +14,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
-      max-request-size: 10MB
+      max-request-size: 50MB
   jackson:
     serialization:
       write-dates-as-timestamps: false
@@ -33,3 +33,13 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+
+# 文件上传配置
+file:
+  upload:
+    # 本地存储路径
+    local-path: ./uploads
+    # 最大文件大小（10MB）
+    max-file-size: 10485760
+    # URL前缀
+    url-prefix: /api/files

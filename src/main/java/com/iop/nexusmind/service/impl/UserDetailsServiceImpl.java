@@ -13,10 +13,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    /**
+     * 构造函数，注入依赖
+     */
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * 根据用户名加载用户详情
+     * Spring Security认证时使用
+     * @param username 用户名
+     * @return UserDetails对象
+     * @throws UsernameNotFoundException 用户不存在时抛出异常
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)

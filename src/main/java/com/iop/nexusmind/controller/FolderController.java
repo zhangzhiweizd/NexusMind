@@ -16,6 +16,9 @@ public class FolderController {
 
     private final FolderService folderService;
 
+    /**
+     * 构造函数，注入FolderService
+     */
     public FolderController(FolderService folderService) {
         this.folderService = folderService;
     }

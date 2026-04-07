@@ -11,12 +11,20 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * Swagger/OpenAPI配置类
+ * 配置API文档的元数据和服务器信息
+ */
 @Configuration
 public class SwaggerConfig {
 
     @Value("${nexusmind.openapi.server-url:http://localhost:8080}")
     private String serverUrl;
 
+    /**
+     * 配置OpenAPI文档信息
+     * 包括标题、描述、版本、联系方式和许可证等
+     */
     @Bean
     public OpenAPI nexusMindOpenAPI() {
         return new OpenAPI()

@@ -21,11 +21,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
 
+    /**
+     * 构造函数，注入依赖
+     */
     public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * JWT认证过滤器核心方法
+     * 从请求头中提取JWT令牌，验证并设置SecurityContext
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,

@@ -20,6 +20,9 @@ public class DataInitializer implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * 构造函数，注入依赖
+     */
     public DataInitializer(UserRepository userRepository,
                           RoleRepository roleRepository,
                           PasswordEncoder passwordEncoder) {
@@ -28,6 +31,10 @@ public class DataInitializer implements CommandLineRunner {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * 应用启动时执行数据初始化
+     * 创建默认角色和测试用户账户
+     */
     @Override
     public void run(String... args) throws Exception {
         // 创建管理员角色

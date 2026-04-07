@@ -18,6 +18,9 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * 构造函数，注入AuthService
+     */
     public AuthController(AuthService authService) {
         this.authService = authService;
     }

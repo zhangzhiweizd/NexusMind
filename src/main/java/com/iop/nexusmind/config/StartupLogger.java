@@ -17,8 +17,9 @@ public class StartupLogger implements CommandLineRunner {
     @Value("${spring.h2.console.path:/h2-console}")
     private String h2ConsolePath;
 
-
-
+    /**
+     * 应用启动后执行，打印系统访问信息
+     */
     @Override
     public void run(String... args) {
 

@@ -15,12 +15,18 @@ public class FolderServiceImpl implements FolderService {
     private final FolderRepository folderRepository;
     private final WorkspaceRepository workspaceRepository;
 
+    /**
+     * 构造函数，注入依赖
+     */
     public FolderServiceImpl(FolderRepository folderRepository,
                             WorkspaceRepository workspaceRepository) {
         this.folderRepository = folderRepository;
         this.workspaceRepository = workspaceRepository;
     }
 
+    /**
+     * 获取指定工作空间下的所有根文件夹（无父文件夹的文件夹）
+     */
     @Override
     public List<Folder> getFoldersByWorkspace(Long workspaceId) {
         Workspace workspace = workspaceRepository.findById(workspaceId)
@@ -28,12 +34,19 @@ public class FolderServiceImpl implements FolderService {
         return folderRepository.findByWorkspaceAndParentIsNull(workspace);
     }
 
+    /**
+     * 根据ID获取文件夹详情
+     */
     @Override
     public Folder getFolderById(Long id) {
         return folderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("文件夹不存在"));
     }
 
+    /**
+     * 创建新文件夹
+     * 验证工作空间和父文件夹的存在性
+     */
     @Override
     public Folder createFolder(Folder folder) {
         if (folder.getWorkspace() != null && folder.getWorkspace().getId() != null) {
@@ -51,6 +64,10 @@ public class FolderServiceImpl implements FolderService {
         return folderRepository.save(folder);
     }
 
+    /**
+     * 更新文件夹信息
+     * 支持更新名称和描述
+     */
     @Override
     public Folder updateFolder(Long id, Folder folderDetails) {
         Folder folder = getFolderById(id);
@@ -61,6 +78,9 @@ public class FolderServiceImpl implements FolderService {
         return folderRepository.save(folder);
     }
 
+    /**
+     * 删除文件夹
+     */
     @Override
     public void deleteFolder(Long id) {
         Folder folder = getFolderById(id);

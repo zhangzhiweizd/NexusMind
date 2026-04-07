@@ -19,6 +19,9 @@ public class DocumentServiceImpl implements DocumentService {
     private final FolderRepository folderRepository;
     private final UserRepository userRepository;
 
+    /**
+     * 构造函数，注入依赖
+     */
     public DocumentServiceImpl(DocumentRepository documentRepository,
                               FolderRepository folderRepository,
                               UserRepository userRepository) {
@@ -27,6 +30,9 @@ public class DocumentServiceImpl implements DocumentService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * 获取指定文件夹下的所有文档
+     */
     @Override
     public List<Document> getDocumentsByFolder(Long folderId) {
         Folder folder = folderRepository.findById(folderId)
@@ -34,12 +40,19 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.findByFolder(folder);
     }
 
+    /**
+     * 根据ID获取文档详情
+     */
     @Override
     public Document getDocumentById(Long id) {
         return documentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("文档不存在"));
     }
 
+    /**
+     * 创建新文档
+     * 自动设置创建者和纯文本内容
+     */
     @Override
     public Document createDocument(Document document) {
         if (document.getFolder() != null && document.getFolder().getId() != null) {
@@ -60,6 +73,10 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.save(document);
     }
 
+    /**
+     * 更新文档信息
+     * 支持更新标题、内容、纯文本、状态和标签
+     */
     @Override
     public Document updateDocument(Long id, Document documentDetails) {
         Document document = getDocumentById(id);
@@ -79,12 +96,18 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.save(document);
     }
 
+    /**
+     * 删除文档
+     */
     @Override
     public void deleteDocument(Long id) {
         Document document = getDocumentById(id);
         documentRepository.delete(document);
     }
 
+    /**
+     * 搜索文档（按标题模糊搜索）
+     */
     @Override
     public List<Document> searchDocuments(String keyword) {
         return documentRepository.findByTitleContainingIgnoreCase(keyword);

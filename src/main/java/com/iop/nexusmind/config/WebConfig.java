@@ -11,6 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 )
 public class WebConfig implements WebMvcConfigurer {
     
+    /**
+     * 配置CORS跨域映射
+     * 允许前端开发服务器访问后端API
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

@@ -16,6 +16,9 @@ public class DocumentController {
 
     private final DocumentService documentService;
 
+    /**
+     * 构造函数，注入DocumentService
+     */
     public DocumentController(DocumentService documentService) {
         this.documentService = documentService;
     }

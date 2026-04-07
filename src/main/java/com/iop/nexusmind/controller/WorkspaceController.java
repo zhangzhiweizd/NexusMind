@@ -16,6 +16,9 @@ public class WorkspaceController {
 
     private final WorkspaceService workspaceService;
 
+    /**
+     * 构造函数，注入WorkspaceService
+     */
     public WorkspaceController(WorkspaceService workspaceService) {
         this.workspaceService = workspaceService;
     }

@@ -13,11 +13,19 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class AppConfig {
 
+    /**
+     * 配置ModelMapper对象映射工具
+     * 用于Entity和DTO之间的转换
+     */
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
+    /**
+     * 配置RestTemplate HTTP客户端
+     * 设置连接超时和读取超时时间
+     */
     @Bean
     public RestTemplate restTemplate() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();

@@ -2,6 +2,7 @@ package com.iop.nexusmind.service.impl;
 
 import com.iop.nexusmind.entity.User;
 import com.iop.nexusmind.entity.Workspace;
+import com.iop.nexusmind.exception.ResourceNotFoundException;
 import com.iop.nexusmind.repository.UserRepository;
 import com.iop.nexusmind.repository.WorkspaceRepository;
 import com.iop.nexusmind.service.WorkspaceService;
@@ -45,7 +46,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Override
     public Workspace getWorkspaceById(Long id) {
         return workspaceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("工作空间不存在"));
+                .orElseThrow(() -> new ResourceNotFoundException("工作空间不存在"));
     }
 
     /**

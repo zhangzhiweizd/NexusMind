@@ -3,6 +3,7 @@ package com.iop.nexusmind.service.impl;
 import com.iop.nexusmind.entity.Document;
 import com.iop.nexusmind.entity.Folder;
 import com.iop.nexusmind.entity.User;
+import com.iop.nexusmind.exception.ResourceNotFoundException;
 import com.iop.nexusmind.repository.DocumentRepository;
 import com.iop.nexusmind.repository.FolderRepository;
 import com.iop.nexusmind.repository.UserRepository;
@@ -36,7 +37,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<Document> getDocumentsByFolder(Long folderId) {
         Folder folder = folderRepository.findById(folderId)
-                .orElseThrow(() -> new RuntimeException("文件夹不存在"));
+                .orElseThrow(() -> new ResourceNotFoundException("文件夹不存在"));
         return documentRepository.findByFolder(folder);
     }
 
@@ -46,7 +47,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Document getDocumentById(Long id) {
         return documentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("文档不存在"));
+                .orElseThrow(() -> new ResourceNotFoundException("文档不存在"));
     }
 
     /**
@@ -57,7 +58,7 @@ public class DocumentServiceImpl implements DocumentService {
     public Document createDocument(Document document) {
         if (document.getFolder() != null && document.getFolder().getId() != null) {
             Folder folder = folderRepository.findById(document.getFolder().getId())
-                    .orElseThrow(() -> new RuntimeException("文件夹不存在"));
+                    .orElseThrow(() -> new ResourceNotFoundException("文件夹不存在"));
             document.setFolder(folder);
         }
         

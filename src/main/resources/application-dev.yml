@@ -26,7 +26,7 @@ spring:
 
 # JWT 密钥（开发环境）
 jwt:
-  secret: RG V2bG9wYWxTY2hvb2xUZXN0S2V5Rm9yRGV2RW52aXJvbm1lbnQyMDI0
+  secret: RGV2bG9wYWxTY2hvb2xUZXN0S2V5Rm9yRGV2RW52aXJvbm1lbnQyMDI0
 
 # 日志配置（开发环境 - 详细）
 logging:

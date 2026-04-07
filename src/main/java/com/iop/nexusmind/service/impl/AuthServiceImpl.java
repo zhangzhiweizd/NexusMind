@@ -6,11 +6,14 @@ import com.iop.nexusmind.dto.RegisterRequest;
 import com.iop.nexusmind.dto.UserDTO;
 import com.iop.nexusmind.entity.Role;
 import com.iop.nexusmind.entity.User;
+import com.iop.nexusmind.exception.BusinessException;
+import com.iop.nexusmind.exception.ResourceNotFoundException;
 import com.iop.nexusmind.repository.RoleRepository;
 import com.iop.nexusmind.repository.UserRepository;
 import com.iop.nexusmind.security.JwtUtil;
 import com.iop.nexusmind.service.AuthService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -89,12 +92,12 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse register(RegisterRequest request) {
         // 检查用户名是否已存在
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("用户名已存在");
+            throw new BusinessException("用户名已存在", HttpStatus.CONFLICT);
         }
 
         // 检查邮箱是否已存在
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("邮箱已被注册");
+            throw new BusinessException("邮箱已被注册", HttpStatus.CONFLICT);
         }
 
         // 创建用户
@@ -135,7 +138,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse refreshToken(String refreshToken) {
         if (!jwtUtil.validateToken(refreshToken)) {
-            throw new RuntimeException("无效的刷新令牌");
+            throw new BusinessException("无效的刷新令牌", HttpStatus.UNAUTHORIZED);
         }
 
         String username = jwtUtil.extractUsername(refreshToken);
@@ -158,7 +161,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDTO getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("用户不存在"));
+                .orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         return convertToDTO(user);
     }
 

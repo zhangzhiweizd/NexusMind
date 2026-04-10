@@ -165,6 +165,7 @@
             <id>dev</id>
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
+                <ddl-auto.mode>update</ddl-auto.mode>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -175,6 +176,7 @@
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
+                <ddl-auto.mode>validate</ddl-auto.mode>
             </properties>
         </profile>
     </profiles>

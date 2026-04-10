@@ -7,9 +7,9 @@ server:
 spring:
   application:
     name: NexusMind
-  # 默认激活开发环境
+  # 通过 Maven Profile 动态激活环境
   profiles:
-    active: dev
+    active: @spring.profiles.active@
   # 公共配置
   servlet:
     multipart:

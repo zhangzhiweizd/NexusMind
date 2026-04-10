@@ -5,10 +5,19 @@
 spring:
   datasource:
     # PostgreSQL 数据库（生产环境）
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:nexusmind_db}
+    url: jdbc:postgresql://10.36.104.200:5432/postgres
     driver-class-name: org.postgresql.Driver
-    username: ${DB_USERNAME:nexusmind}
-    password: ${DB_PASSWORD:your_secure_password}
+    username: postgres
+    password: "!q2w3e4r5t6y7u"
+    # 连接池配置（HikariCP）
+    hikari:
+      pool-name: NexusMind-HikariCP
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+      leak-detection-threshold: 60000
   
   # 生产环境禁用 H2 控制台
   h2:
@@ -18,25 +27,15 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: @ddl-auto.mode@
     show-sql: false
     properties:
       hibernate:
         format_sql: false
-    # 连接池配置（HikariCP）
-  datasource:
-    hikari:
-      pool-name: NexusMind-HikariCP
-      minimum-idle: 5
-      maximum-pool-size: 20
-      idle-timeout: 300000
-      connection-timeout: 20000
-      max-lifetime: 1200000
-      leak-detection-threshold: 60000
 
 # JWT 密钥（生产环境 - 必须通过环境变量设置）
 jwt:
-  secret: ${JWT_SECRET:your-production-secret-key-change-this-in-environment-variables}
+  secret: RGV2bG9wYWxTY2hvb2xUZXN0S2V5Rm9yRGV2RW52aXJvbm1lbnQyMDI0
 
 # 日志配置（生产环境 - 精简）
 logging:
@@ -52,9 +51,11 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
     name: logs/nexusmind-prod.log
-    max-size: 50MB
-    max-history: 90
-    total-size-cap: 1GB
+  logback:
+    rollingpolicy:
+      max-file-size: 50MB
+      max-history: 90
+      total-size-cap: 1GB
 
 # 生产环境禁用 Swagger
 springdoc:
@@ -75,3 +76,9 @@ server:
     min-spare-threads: 10
     connection-timeout: 20000
     accept-count: 100
+    accesslog:
+      enabled: true
+      directory: logs
+      prefix: access_log
+      suffix: .log
+      pattern: "%h %l %u %t &quot;%r&quot; %s %b &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot;"

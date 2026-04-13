@@ -26,13 +26,14 @@ jwt:
   expiration-ms: 86400000 # 24 hours
   refresh-expiration-ms: 604800000 # 7 days
 
-# SpringDoc 配置（公共）
+# SpringDoc 配置（公共 - 默认禁用）
 springdoc:
   api-docs:
     path: /v3/api-docs
+    enabled: false
   swagger-ui:
     path: /swagger-ui.html
-    enabled: true
+    enabled: false
 
 # 文件上传配置
 file:

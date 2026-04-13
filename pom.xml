@@ -176,7 +176,7 @@
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
-                <ddl-auto.mode>validate</ddl-auto.mode>
+                <ddl-auto.mode>update</ddl-auto.mode>
             </properties>
         </profile>
     </profiles>

@@ -2,8 +2,10 @@ package com.iop.nexusmind.config;
 
 import com.iop.nexusmind.security.JwtAuthenticationFilter;
 import com.iop.nexusmind.service.impl.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,6 +23,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,14 +34,23 @@ public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final Environment environment;
+
+    @Value("${spring.h2.console.enabled:false}")
+    private boolean h2ConsoleEnabled;
+
+    @Value("${springdoc.swagger-ui.enabled:false}")
+    private boolean swaggerEnabled;
 
     /**
      * 构造函数，注入依赖
      */
     public SecurityConfig(UserDetailsServiceImpl userDetailsService,
-                         JwtAuthenticationFilter jwtAuthenticationFilter) {
+                         JwtAuthenticationFilter jwtAuthenticationFilter,
+                         Environment environment) {
         this.userDetailsService = userDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.environment = environment;
     }
 
     /**
@@ -47,18 +59,30 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // 根据环境动态构建白名单
+        List<String> permitAllPaths = new ArrayList<>();
+        
+        // 始终放行的路径
+        permitAllPaths.add("/api/auth/**");
+        permitAllPaths.add("/api/files/*/access");  // 允许公开访问文件
+        
+        // 根据配置添加 H2 Console
+        if (h2ConsoleEnabled) {
+            permitAllPaths.add("/h2-console/**");
+        }
+        
+        // 根据配置添加 Swagger
+        if (swaggerEnabled) {
+            permitAllPaths.add("/v3/api-docs/**");
+            permitAllPaths.add("/swagger-ui/**");
+            permitAllPaths.add("/swagger-ui.html");
+        }
+        
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/auth/**",
-                    "/h2-console/**",
-                    "/v3/api-docs/**",
-                    "/swagger-ui/**",
-                    "/swagger-ui.html",
-                    "/api/files/*/access"  // 允许公开访问文件
-                ).permitAll()
+                .requestMatchers(permitAllPaths.toArray(new String[0])).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> 
@@ -66,8 +90,10 @@ public class SecurityConfig {
             .authenticationProvider(daoAuthenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // H2 控制台需要禁用 frameOptions
-        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        // H2 控制台需要禁用 frameOptions（仅在启用时）
+        if (h2ConsoleEnabled) {
+            http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        }
 
         return http.build();
     }

@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 /**
  * 数据库注释初始化器
  * 在应用启动完成后，为 PostgreSQL 数据库添加表和字段注释
- * 
  * 注意：仅在 ddl-auto 为 update/create 时自动执行注释脚本
  *      当 ddl-auto 为 validate/none 时跳过（表结构已稳定）
  */
@@ -65,6 +64,7 @@ public class SchemaCommentInitializer {
             String[] statements = sql.split(";");
             int successCount = 0;
             int skipCount = 0;
+            int errorCount = 0;
 
             for (String statement : statements) {
                 String trimmed = statement.trim();
@@ -76,13 +76,21 @@ public class SchemaCommentInitializer {
                     jdbcTemplate.execute(trimmed);
                     successCount++;
                 } catch (Exception e) {
-                    // 忽略已存在的注释错误
-                    skipCount++;
-                    log.debug("跳过注释（可能已存在）: {}", e.getMessage());
+                    // PostgreSQL 的 COMMENT ON 在对象不存在时会报错
+                    // 其他情况（包括注释已存在）会直接覆盖，不会报错
+                    String errorMsg = e.getMessage();
+                    if (errorMsg != null && errorMsg.contains("does not exist")) {
+                        skipCount++;
+                        log.warn("跳过注释（表或字段不存在）: {}", trimmed.substring(0, Math.min(60, trimmed.length())));
+                    } else {
+                        errorCount++;
+                        log.error("添加注释失败: {}", trimmed.substring(0, Math.min(60, trimmed.length())), e);
+                    }
                 }
             }
 
-            log.info("数据库注释初始化完成！成功: {} 条，跳过: {} 条", successCount, skipCount);
+            log.info("数据库注释初始化完成！成功: {} 条，跳过: {} 条，失败: {} 条", 
+                    successCount, skipCount, errorCount);
             
         } catch (Exception e) {
             log.error("数据库注释初始化失败", e);
